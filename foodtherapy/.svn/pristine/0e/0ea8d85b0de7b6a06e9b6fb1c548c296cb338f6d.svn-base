@@ -1,0 +1,10 @@
+<resources>
+
+    <string name="app_name">食疗</string>
+    <string name="drawer_open">Menu opened</string>
+    <string name="drawer_close">Menu closed</string>
+    <string name="action_settings">Settings</string>
+    <string name="detail">图片详情</string>
+    <string name="menuclass">疗效分类</string>
+    <string name="barclass">功能分类</string>
+</resources>

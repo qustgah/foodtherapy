@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:gesture-image="http://schemas.polites.com/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+       <ProgressBar 
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/loadingprogress"
+    android:gravity="center"
+    android:layout_gravity="center"/>
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <include
+        android:id="@+id/toolbar_actionbars"
+        layout="@layout/toolbar_default"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+  <android.support.v4.view.ViewPager
+            android:id="@+id/newspaper"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+</LinearLayout>
+</FrameLayout>

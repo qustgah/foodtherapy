@@ -1,0 +1,144 @@
+package ijiaban.foodtherapy.fragment;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import ijiaban.foodtherapy.beans.Bar;
+import ijiaban.foodtherapy.beans.Menu;
+import ijiaban.foodtherapy.dao.FoodDao;
+import ijiaban.foodtherapy.utils.adapters.CommonViewAdapter;
+import ijiaban.foodtherapy.utils.http.HttpUtil;
+
+import com.iiijiaban.foodtherapy.R;
+
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.GridView;
+
+public class FoodClassFragment extends Fragment{ 
+	private GridView menugrid; //疗效列表
+	private GridView bargrid;  //功能列表
+	
+	private CommonViewAdapter menuadapter;
+	private CommonViewAdapter baradapter;
+	private List<Menu> menulist = new ArrayList<Menu>();
+	private List<Bar> barlist = new ArrayList<Bar>();
+	
+	 @Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		// TODO 初始化界面
+		View view = inflater.inflate(R.layout.fragment_foodclass, container,false);
+		 
+		menugrid = (GridView) view.findViewById(R.id.menulist);
+		bargrid  =  (GridView) view.findViewById(R.id.barlist);
+		initMenuAdapter();
+		initBarAdapter();
+		setMenuData();
+		setBarData();
+		menugrid.setAdapter(menuadapter);
+		bargrid.setAdapter(baradapter);
+		return view;
+	}
+	void initMenuAdapter(){
+		 menuadapter = new CommonViewAdapter(menulist,getActivity()) {
+			
+			@Override
+			public View setView(View convertView, int position, ViewGroup parent) {
+				// TODO 初始界面
+				Button button; 
+				if(convertView==null){
+					convertView = common_inflater.inflate(R.layout.item_class_grid, null);
+					button = (Button) convertView.findViewById(R.id.myclasses);
+					convertView.setTag(button);
+				}else{
+					button = (Button) convertView.getTag();
+				}
+				button.setText( ((Menu) common_datas.get(position)).getName());
+				return convertView;
+			}
+			@Override
+			public long setItemId(int position){ 
+				return position;
+			}
+		};
+	}
+	
+	void initBarAdapter(){
+		 baradapter = new CommonViewAdapter(barlist,getActivity()) {
+			
+			@Override
+			public View setView(View convertView, int position, ViewGroup parent) {
+				// TODO 初始界面
+				Button button; 
+				if(convertView==null){
+					convertView = common_inflater.inflate(R.layout.item_class_grid, null);
+					button = (Button) convertView.findViewById(R.id.myclasses);
+					convertView.setTag(button);
+				}else{
+					button = (Button) convertView.getTag();
+				}
+				button.setText( ((Bar) common_datas.get(position)).getName());
+				return convertView;
+			}
+			@Override
+			public long setItemId(int position) { 
+				return position;
+			}
+		};
+	} 	 
+	
+	void setMenuData(){
+		new AsyncTask<Void, Integer, List<Menu>>() {
+
+			@Override
+			protected List<Menu> doInBackground(Void... params) {
+				// TODO 网络任务
+				String menuurl = "http://api.yi18.net/food/menu";  
+				List<Menu> list = new ArrayList<Menu>();
+				try {
+					String menujson = HttpUtil.getStringFromUrl(menuurl); 
+					list = FoodDao.MenuJsonToList(menujson);
+				} catch (IOException e) {
+					// TODO 网络错误
+					e.printStackTrace();
+				} 
+				return list;
+			}
+			protected void onPostExecute(List<Menu> result) {
+				menulist = result;
+				menuadapter.refreshData(menulist);
+			};
+		}.execute();
+	}
+	
+	void setBarData(){
+		new AsyncTask<Void, Integer, List<Bar>>() {
+
+			@Override
+			protected List<Bar> doInBackground(Void... params) {
+				// TODO 网络任务
+				String barurl = "http://api.yi18.net/food/bar";  
+				List<Bar> list = new ArrayList<Bar>();
+				try {
+					String barjson = HttpUtil.getStringFromUrl(barurl); 
+					list = FoodDao.BarJsonToList(barjson);
+				} catch (IOException e) {
+					// TODO 网络错误
+					e.printStackTrace();
+				} 
+				return list;
+			}
+			protected void onPostExecute(List<Bar> result) {
+				barlist = result;
+				baradapter.refreshData(barlist);
+			};
+		}.execute();
+	}
+}

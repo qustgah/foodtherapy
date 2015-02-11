@@ -1,0 +1,217 @@
+package ijiaban.foodtherapy.fragment;
+
+import ijiaban.foodtherapy.beans.NewDetail;
+import ijiaban.foodtherapy.consants.Constants;
+import ijiaban.foodtherapy.dao.NewsDao;
+import ijiaban.foodtherapy.utils.adapters.CommonPagerAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import utils.QuickReturnUtils;
+
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Switch;
+import android.widget.TextView;
+
+import com.iiijiaban.foodtherapy.R;
+import com.squareup.picasso.Picasso;
+
+public class NewsDetail extends ActionBarActivity {
+	private ViewPager viewpager;
+	private Toolbar mToolbar;
+	private int position;
+	private int page;
+	private int curpos;
+	private int minpageno = 1;
+	private int maxpageno = 1;
+	private boolean ishas = true;
+	private boolean isloading = false;
+	private boolean isfirst = false;
+	private CommonPagerAdapter adapter;
+	private List<NewDetail> details = new ArrayList<NewDetail>();
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.newsdetailactivity);
+		viewpager = (ViewPager) findViewById(R.id.newspaper);
+		mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbars);
+		setSupportActionBar(mToolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		Intent intent = getIntent();
+		position = intent.getIntExtra("position", 0);
+		page = position / 20 + 1;
+		curpos = position % 20;
+		minpageno = page;
+		maxpageno = page;
+		initialAdapter();
+		getData();
+		viewpager.setAdapter(adapter);
+		viewpager.setOnPageChangeListener(new OnPageChangeListener() {
+
+			@Override
+			public void onPageSelected(int arg0) {
+				curpos = arg0;
+			}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+
+				if (curpos == details.size() - 1 && arg0 == 1 && ishas
+						&& !isloading) {
+					page = maxpageno + 1;
+					isfirst = false;
+					getData();
+				}
+				if (curpos == 0 && arg0 == 1 && !isloading) {
+					if (minpageno > 1) {
+						page = minpageno - 1;
+						isfirst = true;
+						getData();
+					}
+				}
+
+			}
+		});
+
+	}
+
+	private void getData() {
+		new AsyncTask<Void, String, List<NewDetail>>() {
+			@Override
+			/**
+			 *线程开启
+			 */
+			protected List<NewDetail> doInBackground(Void... params) {
+				// TODO Auto-generated method stub
+				List<NewDetail> list = new ArrayList<NewDetail>();
+				List<Integer> ids = new ArrayList<Integer>();
+				ids = NewsDao.getids(page);
+				try {
+					list = NewsDao.getnewsDetail(ids);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return list;
+			}
+
+			@Override
+			protected void onPreExecute() {
+				super.onPreExecute();
+			}
+
+			@Override
+			/**
+			 * 线程结束
+			 */
+			protected void onPostExecute(List<NewDetail> result) {
+				setIshas(result);
+				if (isfirst) {
+					page = page - 1;
+					minpageno = page;
+					ArrayList<NewDetail> list = new ArrayList<NewDetail>();
+					list.addAll(result);
+					list.addAll(details);
+					details = list;
+				} else {
+					page = page + 1;
+					maxpageno = page;
+					details.addAll(result);
+				}
+				isloading = false;
+				// pbloading.setVisibility(View.GONE);
+				adapter.refreshData(details);
+				viewpager.setCurrentItem(curpos);
+				super.onPostExecute(result);
+			}
+
+			public void setIshas(List list) {
+				if (list.size() < 10) {
+					ishas = false;
+				} else {
+					ishas = true;
+				}
+			}
+
+			@Override
+			/**
+			 * 线程运行中
+			 */
+			protected void onProgressUpdate(String... values) {
+				// TODO Auto-generated method stub
+				super.onProgressUpdate(values);
+			}
+		}.execute();
+	}
+
+	private void initialAdapter() {
+		adapter = new CommonPagerAdapter(details, this) {
+
+			@Override
+			public Object setinstantiateItem(View container, int position) {
+				View view = common_inflater.inflate(R.layout.newsdetail_items,
+						null);
+				final ImageView image = (ImageView) view
+						.findViewById(R.id.post_iv);
+				final TextView title = (TextView) view
+						.findViewById(R.id.news_title);
+				final TextView time = (TextView) view
+						.findViewById(R.id.display_time);
+				final TextView message = (TextView) view
+						.findViewById(R.id.message_tv);
+				if (common_datas.get(position).equals("")
+						|| common_datas.get(position) == null) {
+					position = 0;
+				}
+				title.setText(((NewDetail) common_datas.get(position))
+						.getTitle());
+				message.setText(((NewDetail) common_datas.get(position))
+						.getMessage());
+				Picasso.with(common_context)
+						.load(((NewDetail) common_datas.get(position)).getImg())
+						.centerCrop()
+						.resize(QuickReturnUtils.dp2px(common_context, 346),
+								QuickReturnUtils.dp2px(common_context, 320))
+						.error(android.R.drawable.stat_notify_error)
+						.into(image);
+				((ViewPager) container).addView(view);
+				return view;
+			}
+
+			@Override
+			public void refreshData(List<?> datas) {
+				super.refreshData(datas);
+			}
+
+		};
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+
+		default:
+			break;
+		}
+		return false;
+	}
+
+}

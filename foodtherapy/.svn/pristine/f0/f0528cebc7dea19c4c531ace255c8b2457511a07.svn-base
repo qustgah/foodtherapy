@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:gesture-image="http://schemas.polites.com/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ProgressBar
+        android:id="@+id/loadingprogress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <include
+            android:id="@+id/toolbar_actionbars"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/toolbar_default" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:cardBackgroundColor="@color/cardback"
+                app:cardCornerRadius="10dp" >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <RelativeLayout
+                        android:id="@+id/top"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <RelativeLayout
+                            android:id="@+id/left"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content" >
+
+                            <ImageView
+                                android:id="@+id/img_activity_fooddetail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentTop="true"
+                                android:src="@drawable/ic_launcher" />
+
+                            <TextView
+                                android:id="@+id/txt_activity_fooddetail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_below="@+id/img_activity_fooddetail"
+                                android:text="功能及疗效"
+                                android:textColor="@color/black" />
+
+                            <TextView
+                                android:id="@+id/txt_fooddetail_content"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:layout_below="@+id/txt_activity_fooddetail"
+                                android:text="TextView"
+                                android:textColor="@color/black" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/txt_summary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:layout_toRightOf="@+id/left"
+                            android:text="右边部分"
+                            android:textColor="@color/black" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/txt_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@+id/top"
+                        android:text="TextView"
+                        android:textIsSelectable="true"
+                        android:textColor="@color/black" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+        </ScrollView>
+    </LinearLayout>
+
+</FrameLayout>

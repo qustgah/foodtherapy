@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:text="http://schemas.text.com"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="148dp"
+        android:orientation="horizontal" >
+
+        <RelativeLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" >
+            <ImageView 
+                android:id="@+id/detailImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_launcher"
+                android:layout_marginTop="5dp"
+                android:contentDescription="@string/detail" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" >
+            <textView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" 
+                android:text="@string/detail"
+                android:layout_marginTop="30dp" />
+        </RelativeLayout>
+    </LinearLayout>
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+        <RelativeLayout
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" >
+        <iijiaban.foodtherapy.textview.MTextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            text:marginLeft="20"
+            text:marginRight="20"
+            text:paddingLeft="20"
+            text:paddingRight="20"
+            text:textColor="#FFFFFF"
+            text:textSize="30"/>
+       </RelativeLayout>
+    </ScrollView>
+</LinearLayout>

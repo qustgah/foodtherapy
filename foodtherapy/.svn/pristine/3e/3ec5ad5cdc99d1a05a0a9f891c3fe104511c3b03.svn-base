@@ -1,0 +1,96 @@
+package iijiaban.foodtherapy.ui.materialnavigation;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import iijiaban.foodtherapy.textview.MTextView;
+import ijiaban.foodtherapy.beans.NewDetail;
+import ijiaban.foodtherapy.dao.FoodDao;
+
+import com.iiijiaban.foodtherapy.R;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.widget.TextView;
+
+public class NewsDetailActivity extends Activity {
+    private long id;
+	private NewDetail news;
+	private Handler handler;
+	private Date showTime;
+	
+	private TextView title;
+	private TextView tag;
+	private TextView author;
+	private TextView time;
+
+	private TextView count;
+	private MTextView detailView;
+	private static String[] MON = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_newsdetail);
+		
+		title = (TextView) findViewById(R.id.newsTitle);
+		time = (TextView) findViewById(R.id.time);
+		author = (TextView) findViewById(R.id.author);
+		tag = (TextView) findViewById(R.id.tag);
+		count = (TextView) findViewById(R.id.count);
+		detailView = (MTextView) findViewById(R.id.newsMessage);
+		id = getIntent().getLongExtra("id", 0);
+		getData();
+	}
+	
+	public void getData(){
+		new Thread(new Runnable(){
+
+			@Override
+			public void run() {
+				try {
+					news = FoodDao.getNews(id);
+					Message m = Message.obtain();
+					m.what = 0x124;
+					handler.sendMessage(m);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				
+			}
+			
+		}).start();
+		handler = new Handler(){
+
+			@Override
+			public void handleMessage(Message msg) {
+				super.handleMessage(msg);
+				switch(msg.what){
+				case 0x123:
+					setData();
+				}
+			}
+			
+		};
+	}
+	
+	public void setData(){
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		date = news.getTime();
+		String str = sdf.format(date);
+		
+		title.setText(news.getTitle());
+		author.setText(news.getAuthor());
+		tag.setText(news.getTag());
+		time.setText(str);
+		count.setText(news.getCount());
+		detailView.setText(news.getMessage());
+	}
+	
+	
+
+}

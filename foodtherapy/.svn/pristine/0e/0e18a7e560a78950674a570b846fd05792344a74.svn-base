@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="myPrimaryColor">#3F51B5</color>
+    <color name="myPrimaryDarkColor">#3F51B5</color>
+    <color name="myAccentColor">#3F51B5</color>
+    <color name="myDrawerBackground">#F2F2F2</color>
+    <color name="myWindowBackground">#DEDEDE</color>
+    <color name="myTextPrimaryColor">#FFFFFF</color>
+    <color name="myNavigationColor">#000000</color>
+    <color name="selected_gray">#ffdbdbdb</color>
+    <color name="rippelColor">#72d572</color>
+    <color name="transparent_black_fifty">#80000000</color>
+    <color name="cardback">#FFFFFF</color>
+    <color name="gridback">#000000</color>
+    <color name="gainsboro">#DCDCDC</color><!--淡灰色 -->
+   <color name="black">#030303</color>
+   <color name="smalltitle">#A3A3A3</color><!-- 灰色 -->
+       
+    
+</resources>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ScrollView 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+             >
+    <TextView
+        android:id="@+id/menuclass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40dp"
+        android:text="@string/menuclass"/>
+
+    <ijiaban.foodtherapy.wedgits.expandlistview.MyGridView
+        android:id="@+id/menulist"
+        android:numColumns="4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </ijiaban.foodtherapy.wedgits.expandlistview.MyGridView>
+
+    <TextView
+        android:id="@+id/barclass"
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content"
+        android:textSize="40dp"
+        android:text="@string/barclass" />
+
+    <ijiaban.foodtherapy.wedgits.expandlistview.MyGridView
+        android:id="@+id/barlist"
+        android:numColumns="4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </ijiaban.foodtherapy.wedgits.expandlistview.MyGridView>
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

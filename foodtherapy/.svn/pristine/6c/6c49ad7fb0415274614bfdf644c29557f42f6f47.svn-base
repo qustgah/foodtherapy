@@ -1,0 +1,73 @@
+package iijiaban.foodtherapy.ui.materialnavigation;
+
+import iijiaban.foodtherapy.textview.MTextView;
+
+import com.iiijiaban.foodtherapy.R;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+public class DetailActivity extends Activity {
+	private String imageUrl;
+	private String name;
+	private String detail;
+	private ImageView detailImage;
+	private TextView detailName;
+    private MTextView detailView;
+    
+    private ImageLoader loader = ImageLoader.getInstance();
+    private DisplayImageOptions options = new DisplayImageOptions.Builder()
+        .showImageForEmptyUri(R.drawable.ic_launcher)
+        .showImageOnFail(R.drawable.ic_launcher)
+        .considerExifParams(true)
+        .cacheInMemory().build();
+    
+	@SuppressLint("NewApi")
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_detail);
+		getActionBar().setHomeButtonEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayShowHomeEnabled(true);
+		
+		detailImage = (ImageView) findViewById(R.id.detailImage);
+		detailName = (TextView) findViewById(R.id.name);
+		detailView = (MTextView) findViewById(R.id.textView);
+		
+		//获取Intent数据
+		imageUrl = getIntent().getStringExtra("url");
+		name = getIntent().getStringExtra("text");
+		detail = getIntent().getStringExtra("detail");
+		
+		//detail字符串处理
+		detail = detail.replace("\\n", "");
+		detail = detail.replaceAll("</p> <p>", "[");
+		detail = detail.replaceAll("</p>     ", "[");
+		detail = detail.replaceAll("<p>|</p>", "[");
+		detail = detail.replaceAll("<strong>|</strong>", "");
+		//显示数据
+		loader.displayImage(imageUrl, detailImage, options);
+		detailName.setText(name);
+		detailView.setText(detail);
+		detailView.setMovementMethod(ScrollingMovementMethod.getInstance());
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()){
+		case android.R.id.home:
+			finish(); break;
+		}
+		return true;
+	}
+	
+	
+}

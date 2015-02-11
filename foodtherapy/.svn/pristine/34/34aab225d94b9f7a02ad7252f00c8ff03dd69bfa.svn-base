@@ -1,0 +1,92 @@
+package ijiaban.foodtherapy.dao;
+
+import ijiaban.foodtherapy.beans.CookClass;
+import ijiaban.foodtherapy.beans.Recipe;
+import java.util.ArrayList;
+import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.google.gson.Gson;
+
+/**
+ * 食谱的一些操作
+ * @author Administrator
+ *
+ */
+public class RecipeDao {
+
+	static Gson gson = new Gson();
+	/**
+	 * 获取食谱详情
+	 * @param json
+	 * @return
+	 */
+	public static Recipe getRecipeFromJson(String json){
+		Recipe recipe = new Recipe();
+		try {
+			JSONObject jsonObject = new JSONObject(json);
+			if(jsonObject.equals("yi18")){
+				JSONObject obj = (JSONObject) jsonObject.get("yi18");
+				recipe = gson.fromJson(obj.toString(), Recipe.class);
+			} 
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return recipe;
+	} 
+	/**
+	 * 获取食谱列表
+	 * @param json
+	 * @return
+	 */
+	public static List<Recipe> CookClassJsonToList(String json){ 
+		List<Recipe> list = new ArrayList<Recipe>();
+		try {
+			JSONObject jsonObject = new JSONObject(json);
+			JSONArray jsonArray  = null;
+			if(jsonObject.equals("yi18")){
+				jsonArray = jsonObject.getJSONArray("yi18");
+				for(int i = 0;i<jsonArray.length();i++){
+					JSONObject obj = jsonArray.getJSONObject(i);
+					Recipe recipe = new Recipe();
+					recipe = gson.fromJson(obj.toString(),Recipe.class);
+					list.add(recipe);
+				} 
+			}  
+		} catch (JSONException e) {
+			// TODO json转换错误
+			e.printStackTrace();
+		} 
+		return list;
+	}
+
+
+	/**
+	 * 食谱分类列表
+	 * @param json
+	 * @return
+	 */
+	public static List<CookClass> MenuJsonToList(String json){
+		List<CookClass> list = new ArrayList<CookClass>();
+		try {
+			JSONObject jsonObject = new JSONObject(json);
+			JSONArray jsonArray  = null;
+			if(jsonObject.equals("yi18")){
+				jsonArray = jsonObject.getJSONArray("yi18");
+				for(int i = 0;i<jsonArray.length();i++){
+					JSONObject obj = jsonArray.getJSONObject(i);
+					CookClass cookclass = new CookClass();
+					cookclass = gson.fromJson(obj.toString(),CookClass.class);
+					list.add(cookclass);
+				} 
+			}   
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return list;
+	} 
+}

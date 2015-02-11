@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:slide="http://schemas.android.com/apk/res/com.tjerkw.slideexpandable.library"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    app:cardBackgroundColor="@color/cardback"
+    app:cardCornerRadius="10dp" >
+    <LinearLayout  
+              android:layout_width="fill_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+	<RelativeLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:id="@+id/item">
+
+		<TextView
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:id="@+id/text"
+				android:text="种类名目"
+				android:textColor="@color/black"
+			    android:textSize="25sp"/>
+
+		<ImageButton
+				android:id="@+id/expandable_toggle_button"
+				android:src="@drawable/expand"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignBottom="@+id/text"
+				android:layout_alignParentRight="true"
+				android:layout_alignTop="@id/text" />
+		
+	</RelativeLayout>
+
+	 
+		
+	    <ijiaban.foodtherapy.wedgits.expandlistview.MyGridView
+	        android:id="@+id/expandable"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent" 
+	        android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" 
+            android:divider="@color/gainsboro"
+            android:dividerHeight="5dip"
+	        android:background="@color/cardback"
+	        android:numColumns="4"
+	        android:gravity="fill" 
+	        > 
+	        </ijiaban.foodtherapy.wedgits.expandlistview.MyGridView>  
+</LinearLayout>
+</android.support.v7.widget.CardView>

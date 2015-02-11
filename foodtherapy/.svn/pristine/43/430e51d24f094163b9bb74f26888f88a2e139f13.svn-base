@@ -1,0 +1,34 @@
+package iijiaban.foodtherapy.ui.materialnavigation;
+
+import ijiaban.foodtherapy.fragment.CookSearchFragment;
+import ijiaban.foodtherapy.fragment.NewsSearchFragment;
+import ijiaban.foodtherapy.fragment.SearchFragment;
+
+import com.iiijiaban.foodtherapy.R;
+
+import android.app.Activity;
+import android.app.Fragment;
+import android.os.Bundle;
+
+public class SearchActivity extends Activity{
+
+	private String searchtype="";
+	Fragment fragment;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_search);
+		searchtype=getIntent().getStringExtra("searchtype");
+		if(searchtype.equals("cook")){
+			fragment = new CookSearchFragment();
+		}else if(searchtype.equals("food")){
+			fragment = new SearchFragment();
+		}else{
+			fragment = new NewsSearchFragment();
+		} 
+		getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+		
+	}
+	 
+}

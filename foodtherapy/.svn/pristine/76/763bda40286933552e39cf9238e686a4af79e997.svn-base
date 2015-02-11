@@ -1,0 +1,104 @@
+package iijiaban.foodtherapy.ui.materialnavigation;
+
+import iijiaban.foodtherapy.textview.MTextView;
+import ijiaban.foodtherapy.beans.Cook;
+import ijiaban.foodtherapy.dao.FoodDao;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.method.ScrollingMovementMethod;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.iiijiaban.foodtherapy.R;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
+public class DetailActivity extends Activity {
+
+	private ImageView cookImage;
+	private TextView cookName;
+	private TextView cookTag;
+    private TextView cookFood;
+    private TextView cookDone;
+    private MTextView cookDetail;
+    private Cook cook;
+    private long id;   //食谱id
+    private ImageLoader loader = ImageLoader.getInstance();
+    
+    @SuppressWarnings("deprecation")
+	private DisplayImageOptions options = new DisplayImageOptions.Builder()
+        .showImageForEmptyUri(R.drawable.ic_launcher)
+        .showImageOnFail(R.drawable.ic_launcher)
+        .considerExifParams(true)
+        .cacheInMemory(true).build();
+    
+	@SuppressLint("NewApi")
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_cookdetail);
+
+		cookImage = (ImageView) findViewById(R.id.cookImage);
+		cookName = (TextView) findViewById(R.id.cookName);
+		cookTag = (TextView) findViewById(R.id.cookTag);
+		cookFood = (TextView) findViewById(R.id.cookFood);
+		cookDone = (TextView) findViewById(R.id.cookDone);
+        cookDetail = (MTextView) findViewById(R.id.cookDetail);
+		loader.init(ImageLoaderConfiguration
+				.createDefault(getApplicationContext()));
+		
+		id=getIntent().getLongExtra("id", 0);
+		getData();
+	}
+	
+	private void getData() {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					cook = FoodDao.getCook(id);
+					Message m = new Message();
+					m.what = 0x123;
+					handler.sendMessage(m);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+	}
+
+	Handler handler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			switch (msg.what) {
+			case 0x123:
+				setData();
+				break;
+			default:
+				break;
+			}
+		}
+	};
+	
+	private void setData() {
+		// 显示数据
+		loader.displayImage(cook.getImg(), cookImage, options);
+		
+		cookName.setText(cook.getName());
+		cookFood.setText(cook.getFood());
+		cookTag.setText(cook.getTag());
+		cookDone.setText(cook.getName()+"做法");
+		cookDetail.setText(cook.getMessage());
+		cookDetail.setMovementMethod(ScrollingMovementMethod.getInstance());
+	}
+
+
+}

@@ -1,0 +1,107 @@
+package ijiaban.foodtherapy.fragment;
+
+import ijiaban.foodtherapy.beans.NewDetail;
+import ijiaban.foodtherapy.dao.NewsDao;
+
+import java.text.SimpleDateFormat;
+
+import utils.QuickReturnUtils;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.iiijiaban.foodtherapy.R;
+import com.squareup.picasso.Picasso;
+
+public class NewsDetail extends ActionBarActivity {
+	private Toolbar mToolbar;
+	private long id;
+	private TextView title;
+	private TextView time;
+	private ImageView image;
+	private TextView message;
+	private NewDetail detail;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.newsdetailactivity);
+		mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbars);
+		setSupportActionBar(mToolbar);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		Intent intent = getIntent();
+		id = intent.getLongExtra("id", 1);
+		initView();
+		getdata();
+
+	}
+
+	private void getdata() {
+		new AsyncTask<Void, String, NewDetail>() {
+
+			@Override
+			protected NewDetail doInBackground(Void... params) {
+				detail = new NewDetail();
+				try {
+					detail = NewsDao.getnewdetail(id);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return detail;
+			}
+
+			@Override
+			protected void onPostExecute(NewDetail result) {
+				super.onPostExecute(result);
+				setData(result);
+			}
+
+		}.execute();
+
+	}
+
+	protected void setData(NewDetail result) {
+		title.setText(result.getTitle());
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date date = new java.util.Date();
+		date = result.getTime();
+		String str = sdf.format(date);
+		time.setText(str);
+		message.setText(Html.fromHtml(result.getMessage()));
+		Picasso.with(this)
+				.load(result.getImg())
+				.centerCrop()
+				.resize(QuickReturnUtils.dp2px(this, 346),
+						QuickReturnUtils.dp2px(this, 320)).into(image);
+
+	}
+
+	private void initView() {
+		title = (TextView) findViewById(R.id.news_title);
+		time = (TextView) findViewById(R.id.display_time);
+		image = (ImageView) findViewById(R.id.post_iv);
+		message = (TextView) findViewById(R.id.message_tv);
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			break;
+
+		default:
+			break;
+		}
+		return false;
+	}
+
+}

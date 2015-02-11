@@ -1,0 +1,18 @@
+<resources>
+
+    <string name="app_name">食疗</string>
+    <string name="drawer_open">Menu opened</string>
+    <string name="drawer_close">Menu closed</string>
+    <string name="action_settings">Settings</string>
+    <string name="detail">图片详情</string>
+    <string name="effect">主要疗效/功能</string>
+    <string name="menuclass">按疗效分类</string>
+    <string name="barclass">按功能分类</string>
+    <string name="test">
+ <p>【性质】凉</p> \n<p>【五味】甘</p> \n<p>【热量】91.00大卡(千焦)/100克 </p> \n<p>【功效】祛脂降压,养胃,通便,补充能量,消炎止痛,抑癌抗瘤</p> \n<p>【灰蕉是什么】 灰蕉，粉大蕉植株高大粗壮，假茎淡黄绿色而无或少黑褐斑。叶狭长而薄，淡绿色，先端稍尖，叶茎对称心脏形。叶柄长而闭合无叶翼，叶柄及茎部披白粉、边缘有红色条纹；果轴无茸毛，果实微弯，果柄短，果身近圆平且果身较短，果皮薄，成熟时浅黄色；果肉乳白色，肉质柔滑，汁少肉实，味清甜微香。 粉大蕉单株产量一般为10-2...</p>
+    </string>
+    <!-- <string name="effect">功能分类</string>  -->
+    <string name="search">搜索</string>
+    <string name="share">分享</string>
+    <string name="collect">收藏</string>
+</resources>
